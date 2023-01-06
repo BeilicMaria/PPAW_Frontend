@@ -26,11 +26,13 @@ function Modal(props: Props) {
    *
    */
   useEffect(() => {
-    if (open) disableAllFields();
+    setTimeout(() => {
+      if (open) disableAllFields();
+    }, 500);
   }, []);
 
   return (
-    <Dialog open={open} maxWidth={"lg"} id="previewDialogContent">
+    <Dialog open={open} maxWidth={"lg"}>
       <DialogActions className={classes.dialogHeader}>
         <DialogTitle>{title}</DialogTitle>
         <Fab
@@ -42,7 +44,7 @@ function Modal(props: Props) {
           <Close />
         </Fab>
       </DialogActions>
-      <DialogContent>{children}</DialogContent>
+      <DialogContent id="previewDialogContent">{children}</DialogContent>
       <DialogActions className={classes.dialogActions}>{actions}</DialogActions>
     </Dialog>
   );
@@ -51,7 +53,7 @@ function Modal(props: Props) {
 const styles = (theme: any) =>
   createStyles({
     dialogActions: {
-      backgroundColor: "#B4C408",
+      // backgroundColor: "#B4C408",
     },
     dialogHeader: {
       justifyContent: "space-between !important",

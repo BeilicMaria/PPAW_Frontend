@@ -11,7 +11,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { LocalUrlEnum, post, readCookie, UrlEnum } from "../Utils/Utils";
+import { LocalUrlEnum, post, UrlEnum } from "../Utils/Utils";
 import useNoActivity from "../Hooks/useNoActivity";
 import { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/system";
@@ -131,9 +131,6 @@ function Header(props: Props) {
                 <MenuIcon />
               </Avatar>
             </IconButton>
-            {/* <div className={classes.image}>
-              <img src={"/vetmed_logo.png"} alt="VETMED GHID" width="100%" />
-            </div> */}
           </div>
           <IconButton
             size="large"
@@ -146,7 +143,8 @@ function Header(props: Props) {
             }}
           >
             <Avatar className={classes.avatar}>
-              {readCookie("userName").charAt(0).toUpperCase()}
+              {"A"}
+              {/* {readCookie("userName").charAt(0).toUpperCase()} */}
             </Avatar>
           </IconButton>
         </Toolbar>
@@ -199,7 +197,7 @@ const styles = (theme: any) =>
   createStyles({
     container: {
       width: "100%",
-      backgroundColor: "#f2e9e4 !important",
+      backgroundColor: "#1e1f25 !important",
       boxShadow: "1px 3px 10px #000000",
       [theme.breakpoints.down("lg")]: {},
     },

@@ -7,12 +7,10 @@ export const UrlEnum: indexedType = {
   login: "/api/login",
   register: "/api/register",
   logout: "/api/logout",
-  accounts: "/api/accounts",
-  companyCategories: "/api/company/categories",
-  subscriptionsType: "/api/subscriptions",
-  validateUserName: "/api/check/user",
-  getAllRequests: "/api/requests",
+  getUsers: "/api/users",
+  getRoles: "/api/roles",
   getUser: "/api/user",
+  deleteUser: "/api/user",
 };
 
 export const LocalUrlEnum = {
@@ -265,4 +263,30 @@ export function disableAllFields() {
 
   for (index = 0; index < fullLabelHTML.length; index++)
     fullLabelHTML[index].setAttribute("disabled", "disabled");
+}
+
+/**
+ *
+ * @param event
+ * @param model
+ * @param callback
+ */
+export function handleChange(event: any, model: any) {
+  const newModel: any = Object.assign({}, model);
+  const { name } = event.target;
+  if (name === "image") {
+    const { 0: file } = event.target.files;
+    newModel[name] = file;
+  } else {
+    if (name.indexOf("[") > 0) {
+      const nameParts: any = name.substring(0, name.indexOf("["));
+      const index = parseInt(
+        name.substring(name.indexOf("[") + 1, name.indexOf("]"))
+      );
+      newModel[nameParts][index] = event.target.value;
+    } else {
+      newModel[name] = event.target.value;
+    }
+  }
+  return newModel;
 }

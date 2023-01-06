@@ -91,7 +91,7 @@ function DrawerLayout(props: Props) {
       variant="permanent"
       PaperProps={{
         sx: {
-          backgroundColor: "#22223b",
+          backgroundColor: "#1e1f25",
         },
       }}
       open={menuContext.open}
@@ -135,7 +135,7 @@ function DrawerLayout(props: Props) {
           </ListItemButton>
         </ListItem>
 
-        <ListItem onClick={(event) => handleNavigationChange("/")}>
+        <ListItem onClick={(event) => handleNavigationChange("/users")}>
           <ListItemButton
             sx={{
               minHeight: 48,
@@ -173,7 +173,7 @@ const styles = (theme: any) =>
       [theme.breakpoints.down("lg")]: {},
     },
     avatar: {
-      backgroundColor: "#fff !important",
+      backgroundColor: "#000 !important",
     },
     text: { color: "#fff" },
   });

@@ -36,7 +36,7 @@ declare module "@mui/material/styles" {
 let theme = createTheme({
   palette: {
     primary: {
-      main: "#9a8c98",
+      main: "#bab9bd",
     },
     dashboard: {
       main: "#000",
