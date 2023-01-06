@@ -41,14 +41,14 @@ function UsersTable(props: Props) {
     { label: "Last name", name: "lastName" },
     { label: "First name", name: "firstName" },
     { name: "email", label: "Email" },
-    {
-      label: "Phone",
-      name: "phone",
-    },
-    {
-      label: "Date of birth",
-      name: "dateOfBirth",
-    },
+    // {
+    //   label: "Phone",
+    //   name: "phone",
+    // },
+    // {
+    //   label: "Date of birth",
+    //   name: "dateOfBirth",
+    // },
     {
       label: "Role",
       name: "role",
