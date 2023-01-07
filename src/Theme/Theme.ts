@@ -39,7 +39,7 @@ let theme = createTheme({
       main: "#bab9bd",
     },
     dashboard: {
-      main: "#000",
+      main: "#1e1f25",
     },
     secondary: {
       main: "#12A152",

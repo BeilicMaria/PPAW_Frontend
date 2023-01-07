@@ -53,7 +53,7 @@ function Modal(props: Props) {
 const styles = (theme: any) =>
   createStyles({
     dialogActions: {
-      // backgroundColor: "#B4C408",
+      backgroundColor: "#1e1f25",
     },
     dialogHeader: {
       justifyContent: "space-between !important",

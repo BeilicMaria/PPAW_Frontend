@@ -27,3 +27,16 @@ export class WizardModel {
   userNames: Array<string> = [];
   emails: Array<string> = [];
 }
+
+export class UserModel {
+  userName: string | null = "";
+  password: string | null = "";
+  password_confirmation: string | null = "";
+  lastName: string | null = "";
+  firstName: string | null = "";
+  email: string | null = "";
+  phone: string | null = "";
+  dateOfBirth: Date | null = null;
+  role: string | null = "";
+  status: boolean | null = true;
+}

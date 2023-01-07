@@ -22,30 +22,76 @@ function User(props: Props) {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={8} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
+          <TextValidator
+            id="userName"
+            name="userName"
+            label={Vocabulary.userName}
+            value={props.model ? props.model.userName : ""}
+            fullWidth
+            variant="standard"
+            validators={["required"]}
+            errorMessages={[Vocabulary.requiredField]}
+            onChange={(event) => {
+              props.handleChange(event);
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={4}>
+          <TextValidator
+            type="password"
+            id="password"
+            name="password"
+            label={Vocabulary.password}
+            value={props.model ? props.model.password : ""}
+            fullWidth
+            variant="standard"
+            onChange={(event) => {
+              props.handleChange(event);
+            }}
+          />
+        </Grid>
+        {props.model?.id ? null : (
+          <Grid item xs={12} sm={12} md={4}>
+            <TextValidator
+              type="password"
+              id="password_confirmation"
+              name="password_confirmation"
+              label={Vocabulary.passwordConfirmation}
+              value={props.model ? props.model.password_confirmation : ""}
+              fullWidth
+              validators={["required"]}
+              errorMessages={[Vocabulary.requiredField]}
+              variant="standard"
+              onChange={(event) => {
+                props.handleChange(event);
+              }}
+            />
+          </Grid>
+        )}
+        <Grid item xs={12} sm={12} md={4}>
           <TextValidator
             id="lastName"
             name="lastName"
-            label={Vocabulary.fullName}
-            value={props.model.lastName ? props.model.lastName : ""}
+            label={Vocabulary.lastName}
+            value={props.model ? props.model.lastName : ""}
             fullWidth
             variant="standard"
             validators={["required"]}
             errorMessages={[Vocabulary.requiredField]}
             onChange={(event) => {
               props.handleChange(event);
-              console.log(event);
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={8} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
           <TextValidator
             id="firstName"
             name="firstName"
-            label={Vocabulary.username}
+            label={Vocabulary.firstName}
             validators={["required"]}
             errorMessages={[Vocabulary.requiredField]}
-            value={props.model.firstName ? props.model.firstName : ""}
+            value={props.model ? props.model.firstName : ""}
             fullWidth
             variant="standard"
             onChange={(event) => {
@@ -53,7 +99,7 @@ function User(props: Props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={8} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
           <TextValidator
             id="email"
             name="email"
@@ -63,7 +109,7 @@ function User(props: Props) {
               Vocabulary.requiredField,
               Vocabulary.emailValidation,
             ]}
-            value={props.model.email ? props.model.email : ""}
+            value={props.model ? props.model.email : ""}
             fullWidth
             variant="standard"
             onChange={(event) => {
@@ -71,7 +117,7 @@ function User(props: Props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={8} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
           <TextValidator
             type="number"
             id="phone"
@@ -79,7 +125,7 @@ function User(props: Props) {
             label={Vocabulary.phone}
             validators={["required"]}
             errorMessages={[Vocabulary.requiredField]}
-            value={props.model.phone ? props.model.phone : ""}
+            value={props.model ? props.model.phone : ""}
             fullWidth
             variant="standard"
             onChange={(event) => {
@@ -87,10 +133,10 @@ function User(props: Props) {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={8} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
-              value={props.model.dateOfBirth}
+              value={props.model ? props.model.dateOfBirth : null}
               className={`disableWrapper ${classes.datePicker}`}
               openTo="year"
               views={["year", "month", "day"]}
@@ -104,7 +150,7 @@ function User(props: Props) {
             />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={12} sm={8} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
           <InputLabel style={{ fontSize: 12 }}>
             {Vocabulary.accountType}
           </InputLabel>
@@ -115,7 +161,7 @@ function User(props: Props) {
             required
             fullWidth
             variant="standard"
-            value={props.model.role ? props.model.role : ""}
+            value={props.model ? props.model.role : ""}
             id={"role"}
             name={"role"}
             onChange={(event) => {
@@ -123,7 +169,7 @@ function User(props: Props) {
             }}
           >
             <option value="" selected disabled hidden></option>
-            {roles.map((value: any, key: any) => {
+            {roles?.map((value: any, key: any) => {
               return (
                 <option value={value.id} key={key}>
                   {value.role}

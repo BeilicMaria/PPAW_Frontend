@@ -12,7 +12,14 @@ import {
   Theme,
   Typography,
 } from "@mui/material";
-import { ChevronLeft, Home, Person } from "@mui/icons-material";
+import {
+  ChevronLeft,
+  Grade,
+  Home,
+  Person,
+  School,
+  Subject,
+} from "@mui/icons-material";
 import { CSSObject } from "@mui/system";
 import { useContext } from "react";
 import { MenuContext } from "../Context/menuContext";
@@ -156,6 +163,88 @@ function DrawerLayout(props: Props) {
               primary={
                 <Typography className={classes.text} variant="h6">
                   {Vocabulary.users}
+                </Typography>
+              }
+              sx={{ opacity: menuContext.open ? 1 : 0 }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem onClick={(event) => handleNavigationChange("/")}>
+          <ListItemButton
+            sx={{
+              minHeight: 48,
+              justifyContent: menuContext.open ? "initial" : "center",
+              px: 2.5,
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: menuContext.open ? 3 : "auto",
+                justifyContent: "center",
+              }}
+            >
+              <School color="primary" fontSize="large" />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <Typography className={classes.text} variant="h6">
+                  {Vocabulary.classes}
+                </Typography>
+              }
+              sx={{ opacity: menuContext.open ? 1 : 0 }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem onClick={(event) => handleNavigationChange("/")}>
+          <ListItemButton
+            sx={{
+              minHeight: 48,
+              justifyContent: menuContext.open ? "initial" : "center",
+              px: 2.5,
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: menuContext.open ? 3 : "auto",
+                justifyContent: "center",
+              }}
+            >
+              <Subject color="primary" fontSize="large" />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <Typography className={classes.text} variant="h6">
+                  {Vocabulary.subjects}
+                </Typography>
+              }
+              sx={{ opacity: menuContext.open ? 1 : 0 }}
+            />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem onClick={(event) => handleNavigationChange("/")}>
+          <ListItemButton
+            sx={{
+              minHeight: 48,
+              justifyContent: menuContext.open ? "initial" : "center",
+              px: 2.5,
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: menuContext.open ? 3 : "auto",
+                justifyContent: "center",
+              }}
+            >
+              <Grade color="primary" fontSize="large" />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <Typography className={classes.text} variant="h6">
+                  {Vocabulary.grades}
                 </Typography>
               }
               sx={{ opacity: menuContext.open ? 1 : 0 }}

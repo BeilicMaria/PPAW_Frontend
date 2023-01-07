@@ -1,225 +1,89 @@
 import { withStyles } from "@mui/styles";
 import { createStyles } from "@mui/material/styles";
-import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import { ValidatorForm } from "react-material-ui-form-validator";
+
+import { Backdrop, Button, CircularProgress, Grid, Paper } from "@mui/material";
+import { useState, useEffect } from "react";
+import User from "./User";
+import { UrlEnum, get, handleChange, post } from "../Utils/Utils";
+import { useLocation } from "react-router-dom";
+import Dashboard from "../Pages/Dashboard";
 import { Vocabulary } from "../Utils/Vocabulary";
-import { Grid, InputLabel, Paper, Select } from "@mui/material";
-import { useRef } from "react";
-import CachedDataSingleton from "../Utils/CachedDataSingleton";
+import { UserModel } from "../Models/Models";
 
 type Props = {
   classes: any;
-  model: any;
+  model?: any;
 };
 
-function Request(props: Props) {
-  const cachedData = CachedDataSingleton.getInstance();
+function UserRequest(props: Props) {
   const { classes } = props;
-  const validatorRef = useRef<any>(null);
-  const accounts = cachedData.get("accounts");
-  const subscriptions = cachedData.get("subscriptions");
+  const [model, setModel] = useState(new UserModel());
+  const [loading, setLoading] = useState(false);
+  const { state } = useLocation();
+
+  /**
+   *
+   */
+  useEffect(() => {
+    if (state?.id) {
+      setLoading(true);
+      get(`${UrlEnum.user}/${state.id}`).then((response: any) => {
+        if (response.errorMessages) {
+          console.log(response);
+        }
+        setLoading(false);
+        setModel(response.user);
+      });
+    }
+  }, []);
+
+  /**
+   *
+   * @param event
+   */
+  function handleInputChange(event: any) {
+    const newModel: any = handleChange(event, model);
+    setModel(newModel);
+  }
+
+  function handleUpdate() {
+    console.log("update");
+  }
+
+  function handleCreate() {
+    console.log(model);
+    post(UrlEnum.user, model).then((response) => {
+      console.log(response);
+    });
+  }
+
   return (
-    <Paper className={classes.paper}>
-      <ValidatorForm
-        onSubmit={() => {
-          console.log("Sdasdi");
-        }}
-        instantValidate={true}
-        ref={validatorRef}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={8} md={4}>
-            <InputLabel style={{ fontSize: 12 }}>
-              {Vocabulary.accountType}
-            </InputLabel>
-            <Select
-              label={Vocabulary.accountType}
-              className={classes.select}
-              native
-              required
-              fullWidth
-              variant="standard"
-              value={
-                props.model.FK_userAccountId ? props.model.FK_userAccountId : ""
-              }
-              id={"FK_userAccountId"}
-              name={"FK_userAccountId"}
-              onChange={(event) => {
-                // props.handleChange(event);
-              }}
-            >
-              <option value="" selected disabled hidden></option>
-              {accounts.map((value: any, key: any) => {
-                return (
-                  <option value={value.id} key={key}>
-                    {value.account}
-                  </option>
-                );
-              })}
-            </Select>
+    <Dashboard>
+      <Paper className={classes.paper}>
+        <ValidatorForm
+          onSubmit={() => {
+            state?.id ? handleUpdate() : handleCreate();
+          }}
+          instantValidate={true}
+        >
+          <fieldset className={classes.fieldset}>
+            <legend>{Vocabulary.newUser}</legend>
+            <User model={model} handleChange={handleInputChange} />
+          </fieldset>
+          <Grid container justifyContent="flex-end">
+            <Button variant="contained" type="submit">
+              {Vocabulary.save}
+            </Button>
           </Grid>
-          <Grid item xs={12} sm={8} md={4}>
-            <TextValidator
-              id="fullName"
-              name="fullName"
-              label={Vocabulary.fullName}
-              value={props.model.fullName ? props.model.fullName : ""}
-              fullWidth
-              variant="standard"
-              validators={["required"]}
-              errorMessages={[Vocabulary.requiredField]}
-              onChange={(event) => {
-                //   props.handleChange(event);
-                console.log(event);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={8} md={4}>
-            <TextValidator
-              id="userName"
-              name="userName"
-              label={Vocabulary.username}
-              validators={["required"]}
-              errorMessages={[Vocabulary.requiredField]}
-              value={props.model.userName ? props.model.userName : ""}
-              fullWidth
-              variant="standard"
-              onChange={(event) => {
-                //   props.handleChange(event);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={8} md={4}>
-            <TextValidator
-              id="email"
-              name="email"
-              label={Vocabulary.email}
-              validators={["required", "isEmail"]}
-              errorMessages={[
-                Vocabulary.requiredField,
-                Vocabulary.emailValidation,
-              ]}
-              value={props.model.email ? props.model.email : ""}
-              fullWidth
-              variant="standard"
-              onChange={(event) => {
-                // props.handleChange(event);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={8} md={4}>
-            <TextValidator
-              type="number"
-              id="phone"
-              name="phone"
-              label={Vocabulary.phone}
-              validators={["required"]}
-              errorMessages={[Vocabulary.requiredField]}
-              value={props.model.phone ? props.model.phone : ""}
-              fullWidth
-              variant="standard"
-              onChange={(event) => {
-                // props.handleChange(event);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={8} md={4}>
-            <TextValidator
-              id="country"
-              name="country"
-              label={Vocabulary.country}
-              value={props.model.address ? props.model.address.country : ""}
-              fullWidth
-              variant="standard"
-              validators={["required"]}
-              errorMessages={[Vocabulary.requiredField]}
-              onChange={(event) => {
-                // props.handleChange(event);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={8} md={4}>
-            <TextValidator
-              id="county"
-              name="county"
-              label={Vocabulary.county}
-              value={props.model.address ? props.model.address.county : ""}
-              fullWidth
-              variant="standard"
-              validators={["required"]}
-              errorMessages={[Vocabulary.requiredField]}
-              onChange={(event) => {
-                // props.handleChange(event);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={8} md={4}>
-            <TextValidator
-              id="city"
-              name="city"
-              label={Vocabulary.city}
-              value={props.model.address ? props.model.address.city : ""}
-              fullWidth
-              variant="standard"
-              validators={["required"]}
-              errorMessages={[Vocabulary.requiredField]}
-              onChange={(event) => {
-                // props.handleChange(event);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={8} md={4}>
-            <TextValidator
-              id="address"
-              name="address"
-              label={Vocabulary.address}
-              value={props.model.address ? props.model.address.address : ""}
-              fullWidth
-              variant="standard"
-              validators={["required"]}
-              errorMessages={[Vocabulary.requiredField]}
-              onChange={(event) => {
-                // props.handleChange(event);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={8} md={4}>
-            <InputLabel style={{ fontSize: 12 }}>
-              {Vocabulary.subscription}
-            </InputLabel>
-            <Select
-              native
-              required
-              fullWidth
-              variant="standard"
-              value={
-                props.model.FK_subscriptionId
-                  ? props.model.FK_subscriptionId
-                  : ""
-              }
-              id={"FK_subscriptionId"}
-              name={"FK_subscriptionId"}
-              onChange={(event) => {
-                // props.handleChange(event);
-              }}
-              className={classes.select}
-            >
-              <option value="" selected disabled hidden>
-                {Vocabulary.selectSubscriptions}
-              </option>
-              {subscriptions.map((value: any, key: any) => {
-                return (
-                  <option value={value.id} key={key}>
-                    {`${value.type} ${value.price} lei/${value.valability} ${
-                      key === 0 ? Vocabulary.month : Vocabulary.months
-                    }`}
-                  </option>
-                );
-              })}
-            </Select>
-          </Grid>
-        </Grid>
-      </ValidatorForm>
-    </Paper>
+        </ValidatorForm>
+      </Paper>
+      {loading ? (
+        <Backdrop open={true} sx={{ zIndex: "1600 !important" }}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+      ) : null}
+    </Dashboard>
   );
 }
 
@@ -244,5 +108,11 @@ const styles = (theme: any) =>
         width: "100%",
       },
     },
+    fieldset: {
+      borderRadius: 10,
+      borderColor: "#00197540",
+      marginBottom: 20,
+      padding: 20,
+    },
   });
-export default withStyles(styles, { withTheme: true })(Request);
+export default withStyles(styles, { withTheme: true })(UserRequest);

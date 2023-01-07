@@ -9,15 +9,15 @@ export const UrlEnum: indexedType = {
   logout: "/api/logout",
   getUsers: "/api/users",
   getRoles: "/api/roles",
-  getUser: "/api/user",
-  deleteUser: "/api/user",
+  user: "/api/user",
+
 };
 
 export const LocalUrlEnum = {
   login: "/login",
   register: "/register",
   logout: "/logout",
-  requests: "/requests",
+  user: "/user",
 };
 
 export const HttpStatusCode = {

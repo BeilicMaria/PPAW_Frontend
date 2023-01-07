@@ -5,19 +5,26 @@ import MUIDataTable from "mui-datatables";
 import { Vocabulary } from "../Utils/Vocabulary";
 import {
   Backdrop,
+  Button,
   CircularProgress,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
 } from "@mui/material";
-import { Delete, Edit, Visibility } from "@mui/icons-material";
+import {
+  AddCircleOutlineOutlined,
+  Delete,
+  Edit,
+  Visibility,
+} from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { UrlEnum, get, handleChange, post } from "../Utils/Utils";
+import { LocalUrlEnum, UrlEnum, get, handleChange, post } from "../Utils/Utils";
 import clsx from "clsx";
 import User from "../Components/User";
 import Modal from "../Components/Modal";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ValidatorForm } from "react-material-ui-form-validator";
+import theme from "../Theme/Theme";
 
 type Props = {
   classes: any;
@@ -25,7 +32,7 @@ type Props = {
 
 function UsersTable(props: Props) {
   const { classes } = props;
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [state, setState] = useState<any>({
     users: [],
     page: 1,
@@ -37,10 +44,13 @@ function UsersTable(props: Props) {
     loading: false,
   });
 
-  const requestHeaders = [
-    { label: "Last name", name: "lastName" },
-    { label: "First name", name: "firstName" },
-    { name: "email", label: "Email" },
+  const usersHeaders = [
+    {
+      label: "Prenume",
+      name: "lastName",
+    },
+    { label: "Nume", name: "firstName" },
+    { label: "Email", name: "email" },
     // {
     //   label: "Phone",
     //   name: "phone",
@@ -50,7 +60,7 @@ function UsersTable(props: Props) {
     //   name: "dateOfBirth",
     // },
     {
-      label: "Role",
+      label: "Rol",
       name: "role",
     },
     { label: "TRUE", name: "status", options: { display: false } },
@@ -86,7 +96,11 @@ function UsersTable(props: Props) {
                 <Tooltip title={Vocabulary.edit}>
                   <ToggleButton
                     onClick={() => {
-                      console.log("SdasdI");
+                      console.log("Dasds");
+                      navigate(
+                        `${LocalUrlEnum.user}/${state.users[rowIndex].id}`,
+                        { state: { id: state.users[rowIndex].id } }
+                      );
                     }}
                     value="center"
                     aria-label="centered"
@@ -131,6 +145,24 @@ function UsersTable(props: Props) {
         body: {
           noMatch: Vocabulary.noResultsFound,
         },
+      },
+      customToolbar: () => {
+        return (
+          <Button
+            onClick={(event: any) => navigate(`${LocalUrlEnum.user}`)}
+            variant="outlined"
+            style={{
+              margin: 7,
+              color: theme.palette.textColorSecondary?.main,
+              borderRadius: 7,
+              backgroundColor: theme.palette.dashboard?.main,
+              borderWidth: 0,
+            }}
+          >
+            <AddCircleOutlineOutlined style={{ marginRight: 7 }} />
+            {Vocabulary.newUser}
+          </Button>
+        );
       },
       rowsPerPage: state.perPage,
       page: state.page,
@@ -177,7 +209,7 @@ function UsersTable(props: Props) {
    * @param id
    */
   function handlePreview(id: any) {
-    get(`${UrlEnum.getUser}/${id}`).then((response: any) => {
+    get(`${UrlEnum.user}/${id}`).then((response: any) => {
       if (response.errorMessages) {
         console.log(response);
       }
@@ -194,7 +226,7 @@ function UsersTable(props: Props) {
    * @param id
    */
   function handleDelete(id: any) {
-    post(`${UrlEnum.deleteUser}/${id}`, {}).then((response: any) => {
+    post(`${UrlEnum.user}/${id}`, {}).then((response: any) => {
       if (response.errorMessages) {
         console.log(response);
       }
@@ -214,9 +246,9 @@ function UsersTable(props: Props) {
   return (
     <Dashboard>
       <MUIDataTable
-        title={Vocabulary.requestsList}
+        title={Vocabulary.users}
         data={state.users}
-        columns={requestHeaders}
+        columns={usersHeaders}
         options={getTableOptions()}
       />
       {state.preview ? (
