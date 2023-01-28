@@ -25,6 +25,7 @@ import { useContext } from "react";
 import { MenuContext } from "../Context/menuContext";
 import { Vocabulary } from "../Utils/Vocabulary";
 import { useNavigate } from "react-router-dom";
+import { LocalUrlEnum } from "../Utils/Utils";
 
 type Props = {
   classes: any;
@@ -142,7 +143,9 @@ function DrawerLayout(props: Props) {
           </ListItemButton>
         </ListItem>
 
-        <ListItem onClick={(event) => handleNavigationChange("/users")}>
+        <ListItem
+          onClick={(event) => handleNavigationChange(LocalUrlEnum.users)}
+        >
           <ListItemButton
             sx={{
               minHeight: 48,
@@ -169,7 +172,9 @@ function DrawerLayout(props: Props) {
             />
           </ListItemButton>
         </ListItem>
-        <ListItem onClick={(event) => handleNavigationChange("/")}>
+        <ListItem
+          onClick={(event) => handleNavigationChange(LocalUrlEnum.classes)}
+        >
           <ListItemButton
             sx={{
               minHeight: 48,
@@ -196,7 +201,9 @@ function DrawerLayout(props: Props) {
             />
           </ListItemButton>
         </ListItem>
-        <ListItem onClick={(event) => handleNavigationChange("/")}>
+        <ListItem
+          onClick={(event) => handleNavigationChange(LocalUrlEnum.subjects)}
+        >
           <ListItemButton
             sx={{
               minHeight: 48,

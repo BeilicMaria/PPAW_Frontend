@@ -4,20 +4,34 @@ type indexedType = {
 const access_token = readCookie("access_token");
 
 export const UrlEnum: indexedType = {
+  /** USERS */
   login: "/api/login",
   register: "/api/register",
   logout: "/api/logout",
   getUsers: "/api/users",
   getRoles: "/api/roles",
   user: "/api/user",
-
+  /** SUBJECT */
+  getSubjects: "/api/subjects",
+  subject: "/api/subject",
+  /** CLASS */
+  getClasses: "/api/classes",
+  class: "/api/class",
 };
 
 export const LocalUrlEnum = {
+  /** USERS */
   login: "/login",
   register: "/register",
   logout: "/logout",
   user: "/user",
+  users: "/users",
+  /** SUBJECT */
+  subjects: "/subjects",
+  subject: "/subject",
+  /** Class */
+  classes: "/classes",
+  class: "/class",
 };
 
 export const HttpStatusCode = {
@@ -289,4 +303,25 @@ export function handleChange(event: any, model: any) {
     }
   }
   return newModel;
+}
+
+/**
+ * delete data from http request
+ * @param url
+ * @param history
+ * @returns
+ */
+export async function httpDelete(url: any, history = null) {
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "*/json",
+    Authorization: `Bearer ${access_token}`,
+  };
+  const response = await fetch(url, {
+    method: "DELETE",
+    cache: "no-cache",
+    headers: headers,
+  });
+
+  return handleHttpResponse(response, history);
 }

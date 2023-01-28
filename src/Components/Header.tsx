@@ -11,7 +11,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { LocalUrlEnum, post, UrlEnum } from "../Utils/Utils";
+import { LocalUrlEnum, post, readCookie, UrlEnum } from "../Utils/Utils";
 import useNoActivity from "../Hooks/useNoActivity";
 import { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/system";
@@ -143,8 +143,7 @@ function Header(props: Props) {
             }}
           >
             <Avatar className={classes.avatar}>
-              {"A"}
-              {/* {readCookie("userName").charAt(0).toUpperCase()} */}
+              {readCookie("userName").charAt(0).toUpperCase()}
             </Avatar>
           </IconButton>
         </Toolbar>

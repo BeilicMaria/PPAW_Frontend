@@ -1,7 +1,7 @@
 import { Button, IconButton, InputAdornment, Typography } from "@mui/material";
 import { createStyles } from "@mui/material/styles";
 import { withStyles } from "@mui/styles";
-import { useEffect, useRef, useState } from "react";
+import { useEffect,  useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { Vocabulary } from "../Utils/Vocabulary";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,7 +18,6 @@ type Props = {
 function Login(props: Props) {
   const { classes } = props;
   const navigate = useNavigate();
-  const captchaRef = useRef<any>(null);
   const [user, setUser] = useState<LoginModel>(new LoginModel());
   const [showPassword, setShowPassword] = useState(false);
 
@@ -45,15 +44,11 @@ function Login(props: Props) {
    *
    */
   function handleSubmit() {
-    if (captchaRef.current) {
-      const token = captchaRef.current.getValue();
       const newUser: any = Object.assign({}, user);
-      newUser["reCaptcha"] = token;
       post(UrlEnum.login, newUser, { credentials: "include" }).then(
         (response) => {
           if (response.errors) {
             toast.error(response.errors);
-            // captchaRef.current.reset();
           }
           if (response.access_token) {
             const expires = new Date(Date.now() + 180 * 10000000).toUTCString();
@@ -66,17 +61,14 @@ function Login(props: Props) {
         }
       );
     }
-  }
+  
 
   return (
     <div className={classes.root}>
       <ToastContainer hideProgressBar={true} />
-      <div className={classes.image}>
-        <img src={"/logo.png"} alt="VETMED GHID" width="100%" />
-      </div>
       <ValidatorForm
         className={classes.form}
-        // instantValidate={false}
+        instantValidate={false}
         onSubmit={handleSubmit}
       >
         <TextValidator

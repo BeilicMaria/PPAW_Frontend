@@ -42,7 +42,7 @@ let theme = createTheme({
       main: "#1e1f25",
     },
     secondary: {
-      main: "#12A152",
+      main: "#1e1f25",
     },
     header: {
       main: "#348BB9",

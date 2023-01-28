@@ -1,31 +1,6 @@
 export class LoginModel {
   email: string | null = "";
   password: string | null = "";
-  reCaptcha: string | null = "";
-}
-
-export class WizardModel {
-  isUserAccount = "true";
-  userName = "";
-  email = "";
-  fullName = "";
-  phone = "";
-  ValidationCode = "";
-  image = "";
-  FK_userAccountId = "";
-  FK_subscriptionId = "";
-  country = "";
-  county = "";
-  city = "";
-  address = "";
-
-  name = "";
-  FK_categoryId = "";
-  CUI = "";
-  registerNo = "";
-  representativeName = "";
-  userNames: Array<string> = [];
-  emails: Array<string> = [];
 }
 
 export class UserModel {
@@ -39,4 +14,12 @@ export class UserModel {
   dateOfBirth: Date | null = null;
   role: string | null = "";
   status: boolean | null = true;
+  FK_roleId: any | null = "";
+}
+
+export class SubjectModel {
+  name: string | null = "";
+  credits: number | null = 0;
+  isMandatory: boolean | undefined = false;
+  deleted: boolean | null = false;
 }

@@ -1,7 +1,7 @@
 import { withStyles } from "@mui/styles";
 import { createStyles } from "@mui/material/styles";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import { LocalUrlEnum, UrlEnum, get, readCookie } from "../Utils/Utils";
 import DrawerLayout from "../Components/DrawerLayout";
@@ -11,7 +11,6 @@ import CachedDataSingleton from "../Utils/CachedDataSingleton";
 
 type Props = {
   classes: any;
-  children?: any;
 };
 
 function Dashboard(props: Props) {
@@ -51,7 +50,7 @@ function Dashboard(props: Props) {
         <CssBaseline />
         <DrawerLayout />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          {props.children ? props.children : <div></div>}
+          <Outlet />
         </Box>
       </Box>
     </div>

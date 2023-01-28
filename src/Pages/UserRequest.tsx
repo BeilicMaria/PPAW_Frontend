@@ -1,15 +1,14 @@
 import { withStyles } from "@mui/styles";
 import { createStyles } from "@mui/material/styles";
 import { ValidatorForm } from "react-material-ui-form-validator";
-
 import { Backdrop, Button, CircularProgress, Grid, Paper } from "@mui/material";
 import { useState, useEffect } from "react";
-import User from "./User";
+import User from "../Components/User";
 import { UrlEnum, get, handleChange, post } from "../Utils/Utils";
 import { useLocation } from "react-router-dom";
-import Dashboard from "../Pages/Dashboard";
 import { Vocabulary } from "../Utils/Vocabulary";
 import { UserModel } from "../Models/Models";
+import { ToastContainer, toast } from "react-toastify";
 
 type Props = {
   classes: any;
@@ -25,16 +24,22 @@ function UserRequest(props: Props) {
   /**
    *
    */
+  function getUserData() {
+    get(`${UrlEnum.user}/${state.id}`).then((response: any) => {
+      if (response.errors) {
+        toast.error(Vocabulary.getUserError);
+      }
+      setLoading(false);
+      setModel(response.user);
+    });
+  }
+  /**
+   *
+   */
   useEffect(() => {
     if (state?.id) {
       setLoading(true);
-      get(`${UrlEnum.user}/${state.id}`).then((response: any) => {
-        if (response.errorMessages) {
-          console.log(response);
-        }
-        setLoading(false);
-        setModel(response.user);
-      });
+      getUserData();
     }
   }, []);
 
@@ -47,19 +52,39 @@ function UserRequest(props: Props) {
     setModel(newModel);
   }
 
+  /**
+   *
+   */
   function handleUpdate() {
-    console.log("update");
+    setLoading(true);
+    post(`${UrlEnum.user}/${state?.id}`, model).then((response) => {
+      setLoading(false);
+      if (response.errors) {
+        toast.error(response.errors);
+      } else {
+        toast.success(Vocabulary.updateUserSuccess);
+      }
+    });
   }
 
+  /**
+   *
+   */
   function handleCreate() {
-    console.log(model);
+    setLoading(true);
     post(UrlEnum.user, model).then((response) => {
-      console.log(response);
+      setLoading(false);
+      if (response.errors) {
+        toast.error(response.errors);
+      } else {
+        toast.success(Vocabulary.addUserSuccess);
+      }
     });
   }
 
   return (
-    <Dashboard>
+    <>
+      <ToastContainer hideProgressBar={true} />
       <Paper className={classes.paper}>
         <ValidatorForm
           onSubmit={() => {
@@ -72,7 +97,7 @@ function UserRequest(props: Props) {
             <User model={model} handleChange={handleInputChange} />
           </fieldset>
           <Grid container justifyContent="flex-end">
-            <Button variant="contained" type="submit">
+            <Button variant="contained" color="secondary" type="submit">
               {Vocabulary.save}
             </Button>
           </Grid>
@@ -83,7 +108,7 @@ function UserRequest(props: Props) {
           <CircularProgress color="primary" />
         </Backdrop>
       ) : null}
-    </Dashboard>
+    </>
   );
 }
 

@@ -44,6 +44,8 @@ function User(props: Props) {
             name="password"
             label={Vocabulary.password}
             value={props.model ? props.model.password : ""}
+            validators={props.model?.id ? [] : ["required"]}
+            errorMessages={[props.model?.id ? "" : Vocabulary.requiredField]}
             fullWidth
             variant="standard"
             onChange={(event) => {
@@ -146,7 +148,7 @@ function User(props: Props) {
                 };
                 props.handleChange(event);
               }}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => <TextField required {...params} />}
             />
           </LocalizationProvider>
         </Grid>
@@ -161,9 +163,9 @@ function User(props: Props) {
             required
             fullWidth
             variant="standard"
-            value={props.model ? props.model.role : ""}
-            id={"role"}
-            name={"role"}
+            value={props.model ? props.model.FK_roleId : ""}
+            id={"FK_roleId"}
+            name={"FK_roleId"}
             onChange={(event) => {
               props.handleChange(event);
             }}
