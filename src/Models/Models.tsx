@@ -23,3 +23,9 @@ export class SubjectModel {
   isMandatory: boolean | undefined = false;
   deleted: boolean | null = false;
 }
+
+export class SchoolClassModel {
+  name: string | null = "";
+  schoolYear: string | null = "";
+  archived: boolean | undefined = false;
+}

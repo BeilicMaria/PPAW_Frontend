@@ -3,8 +3,8 @@ import { createStyles } from "@mui/material/styles";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import { Backdrop, Button, CircularProgress, Grid, Paper } from "@mui/material";
 import { useState, useEffect } from "react";
-import { UrlEnum, get, handleChange, post } from "../Utils/Utils";
-import { useLocation } from "react-router-dom";
+import { LocalUrlEnum, UrlEnum, get, handleChange, post } from "../Utils/Utils";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Vocabulary } from "../Utils/Vocabulary";
 import { SubjectModel } from "../Models/Models";
 import { ToastContainer, toast } from "react-toastify";
@@ -20,7 +20,7 @@ function SubjectRequest(props: Props) {
   const [model, setModel] = useState(new SubjectModel());
   const [loading, setLoading] = useState(false);
   const { state } = useLocation();
-
+  const navigate = useNavigate();
   /**
    *
    */
@@ -78,6 +78,7 @@ function SubjectRequest(props: Props) {
         toast.error(Vocabulary.generalAddError);
       } else {
         toast.success(Vocabulary.generalAddSuccess);
+        navigate(LocalUrlEnum.subjects);
       }
     });
   }

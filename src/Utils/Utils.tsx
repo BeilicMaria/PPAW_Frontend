@@ -97,7 +97,7 @@ async function handleHttpResponse(response: any, history: any) {
           if (errText.substring(0, 1) === "<") {
             return { errors: "Error" };
           }
-          if (errText && errText.length > 0) {
+          if (errText && errText.length > 0) {  
             return { errors: errText };
           }
         } catch (ex) {
@@ -127,6 +127,7 @@ async function handleHttpResponse(response: any, history: any) {
               return { errors: "Error" };
             }
             if (errText && errText.length > 0) {
+              console.log(errText);
               return { errors: errText };
             }
           } catch (ex) {

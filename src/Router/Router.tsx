@@ -7,8 +7,9 @@ import UsersTable from "../Pages/UsersTable";
 import UserRequest from "../Pages/UserRequest";
 import PageNotFound from "../Pages/PageNotFound";
 import SubjectsTable from "../Pages/SubjectsTable";
-import Subject from "../Pages/SubjectRequest";
+import SubjectRequest from "../Pages/SubjectRequest";
 import ClassesTable from "../Pages/ClassesTable";
+import ClassesRequest from "../Pages/ClassesRequest";
 
 const Router = () => {
   return (
@@ -19,8 +20,9 @@ const Router = () => {
             <Route path="/users" element={<UsersTable />} />
             <Route path="/user/:id?" element={<UserRequest />} />
             <Route path="/subjects" element={<SubjectsTable />} />
-            <Route path="/subject/:id?" element={<Subject />} />
+            <Route path="/subject/:id?" element={<SubjectRequest />} />
             <Route path="/classes" element={<ClassesTable />} />
+            <Route path="/class/:id?" element={<ClassesRequest />} />
           </Route>
           <Route path="login" element={<Login />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>

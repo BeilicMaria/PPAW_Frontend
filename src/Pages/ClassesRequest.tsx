@@ -3,43 +3,44 @@ import { createStyles } from "@mui/material/styles";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import { Backdrop, Button, CircularProgress, Grid, Paper } from "@mui/material";
 import { useState, useEffect } from "react";
-import User from "../Components/User";
 import { LocalUrlEnum, UrlEnum, get, handleChange, post } from "../Utils/Utils";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Vocabulary } from "../Utils/Vocabulary";
-import { UserModel } from "../Models/Models";
 import { ToastContainer, toast } from "react-toastify";
+import SchoolClass from "../Components/SchoolClass";
+import { SchoolClassModel } from "../Models/Models";
 
 type Props = {
   classes: any;
   model?: any;
 };
 
-function UserRequest(props: Props) {
+function ClassesRequest(props: Props) {
   const { classes } = props;
-  const [model, setModel] = useState(new UserModel());
+  const [model, setModel] = useState(new SchoolClassModel());
   const [loading, setLoading] = useState(false);
   const { state } = useLocation();
   const navigate = useNavigate();
   /**
    *
    */
-  function getUserData() {
-    get(`${UrlEnum.user}/${state.id}`).then((response: any) => {
+  function getClassDetails() {
+    get(`${UrlEnum.class}/${state.id}`).then((response: any) => {
       if (response.errors) {
-        toast.error(Vocabulary.getUserError);
+        toast.error(response.errors);
       }
       setLoading(false);
-      setModel(response.user);
+      setModel(response.class);
     });
   }
+
   /**
    *
    */
   useEffect(() => {
     if (state?.id) {
       setLoading(true);
-      getUserData();
+      getClassDetails();
     }
   }, []);
 
@@ -57,12 +58,12 @@ function UserRequest(props: Props) {
    */
   function handleUpdate() {
     setLoading(true);
-    post(`${UrlEnum.user}/${state?.id}`, model).then((response) => {
+    post(`${UrlEnum.class}/${state?.id}`, model).then((response) => {
       setLoading(false);
       if (response.errors) {
-        toast.error(response.errors);
+        toast.error(Vocabulary.generalUpdateError);
       } else {
-        toast.success(Vocabulary.updateUserSuccess);
+        toast.success(Vocabulary.generalUpdateSuccess);
       }
     });
   }
@@ -72,13 +73,13 @@ function UserRequest(props: Props) {
    */
   function handleCreate() {
     setLoading(true);
-    post(UrlEnum.user, model).then((response) => {
+    post(UrlEnum.class, model).then((response) => {
       setLoading(false);
       if (response.errors) {
-        toast.error(response.errors);
+        toast.error(Vocabulary.generalAddError);
       } else {
-        toast.success(Vocabulary.addUserSuccess);
-        navigate(LocalUrlEnum.users);
+        toast.success(Vocabulary.generalAddSuccess);
+        navigate(LocalUrlEnum.classes);
       }
     });
   }
@@ -93,10 +94,7 @@ function UserRequest(props: Props) {
           }}
           instantValidate={true}
         >
-          <fieldset className={classes.fieldset}>
-            <legend>{Vocabulary.newUser}</legend>
-            <User model={model} handleChange={handleInputChange} />
-          </fieldset>
+          <SchoolClass model={model} handleChange={handleInputChange} />
           <Grid container justifyContent="flex-end">
             <Button variant="contained" color="secondary" type="submit">
               {Vocabulary.save}
@@ -141,4 +139,4 @@ const styles = (theme: any) =>
       padding: 20,
     },
   });
-export default withStyles(styles, { withTheme: true })(UserRequest);
+export default withStyles(styles, { withTheme: true })(ClassesRequest);

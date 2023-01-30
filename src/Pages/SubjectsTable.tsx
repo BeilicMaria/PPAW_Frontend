@@ -44,7 +44,6 @@ function SubjectsTable(props: Props) {
     preview: false,
     selectedSubject: {},
     loading: false,
-    filter: null,
   });
 
   const subjectsHeaders = [
@@ -153,8 +152,8 @@ function SubjectsTable(props: Props) {
       serverSide: true,
       sort: true,
       onSearchChange: (searchText: string | null) => {
-        if (searchText && searchText?.length > 3)
-          setState({ ...state, filter: searchText });
+        if (searchText && searchText?.length > 3) getSubjects(searchText);
+        if (!searchText) getSubjects(null);
       },
       onChangePage: (page: any) => {
         setState({ ...state, page: page });
@@ -170,18 +169,18 @@ function SubjectsTable(props: Props) {
    */
   useEffect(() => {
     getSubjects();
-  }, [state.perPage, state.page, state.filter]);
+  }, [state.perPage, state.page]);
 
   /**
    *
    */
-  function getSubjects() {
+  function getSubjects(filter: string | null = null) {
     setState({ ...state, loading: true });
-    get(
-      `${UrlEnum.getSubjects}/${state.page}/${state.perPage}/${state.filter}`
-    ).then((data) => {
-      setState({ ...state, subjects: data.subjects, loading: false });
-    });
+    get(`${UrlEnum.getSubjects}/${state.page}/${state.perPage}/${filter}`).then(
+      (data) => {
+        setState({ ...state, subjects: data.subjects, loading: false });
+      }
+    );
   }
 
   /**

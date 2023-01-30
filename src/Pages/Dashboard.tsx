@@ -26,7 +26,11 @@ function Dashboard(props: Props) {
     if (!readCookie("access_token")) {
       navigate(LocalUrlEnum.login);
     }
-    if (storage.getItem("roles") && storage.getItem("roles") !== "") {
+    if (
+      storage.getItem("roles") &&
+      storage.getItem("roles") !== "" &&
+      storage.getItem("roles") !== "undefined"
+    ) {
       const roles = JSON.parse(storage.getItem("roles") || "");
       cachedData.set({
         roles: roles,
@@ -34,7 +38,6 @@ function Dashboard(props: Props) {
     } else {
       const promises = [get(UrlEnum.getRoles)];
       Promise.all(promises).then((values: any) => {
-        console.log(values);
         cachedData.set({
           roles: values[0].roles,
         });

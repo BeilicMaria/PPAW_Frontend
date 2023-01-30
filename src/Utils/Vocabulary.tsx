@@ -95,4 +95,6 @@ export const Vocabulary = {
   generalDeleteSuccess: "Datele au fost șterse cu succes!",
   generalDeleteError: "Ștergerea datelor a eșuat!",
   addClass: "Adaugă clasă",
+  schoolYear: "An școlar",
+  class:"Clasă"
 };

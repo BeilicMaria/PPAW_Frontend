@@ -49,7 +49,6 @@ function UsersTable(props: Props) {
     page: 1,
     perPage: 20,
     order: "asc",
-    filter: null,
     preview: false,
     selectedUser: {},
     loading: false,
@@ -175,8 +174,8 @@ function UsersTable(props: Props) {
       serverSide: true,
       sort: true,
       onSearchChange: (searchText: string | null) => {
-        if (searchText && searchText?.length > 3)
-          setState({ ...state, filter: searchText });
+        if (searchText && searchText?.length >= 3) getUsers(searchText);
+        if (!searchText) getUsers(null);
       },
       onColumnSortChange: (changedColumn: string, direction: string) => {
         setState({ ...state, order: direction });
@@ -209,17 +208,16 @@ function UsersTable(props: Props) {
     state.status,
     state.startDate,
     state.endDate,
-    state.filter,
     state.order,
   ]);
 
   /**
    *
    */
-  function getUsers() {
+  function getUsers(filter: string | null = null) {
     setState({ ...state, loading: true });
     get(
-      `${UrlEnum.getUsers}/${state.page}/${state.perPage}/${state.startDate}/${state.endDate}/${state.order}/${state.status}/${state.filter}`
+      `${UrlEnum.getUsers}/${state.page}/${state.perPage}/${state.startDate}/${state.endDate}/${state.order}/${state.status}/${filter}`
     ).then((data) => {
       setState({ ...state, users: data.users, loading: false });
     });

@@ -27,8 +27,8 @@ import {
 import Modal from "../Components/Modal";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import Subject from "../Components/Subject";
 import { ValidatorForm } from "react-material-ui-form-validator";
+import SchoolClass from "../Components/SchoolClass";
 
 type Props = {
   classes: any;
@@ -44,7 +44,6 @@ function ClassesTable(props: Props) {
     preview: false,
     selectedClass: {},
     loading: false,
-    filter: null,
   });
 
   const classesHeaders = [
@@ -64,7 +63,7 @@ function ClassesTable(props: Props) {
         setCellProps: () => ({
           align: "center",
         }),
-        filter: false,
+        filter: true,
         sort: false,
         empty: true,
         customBodyRenderLite: (dataIndex: any, rowIndex: any) => {
@@ -153,8 +152,8 @@ function ClassesTable(props: Props) {
       serverSide: true,
       sort: true,
       onSearchChange: (searchText: string | null) => {
-        if (searchText && searchText?.length > 3)
-          setState({ ...state, filtgetClasseser: searchText });
+        if (searchText && searchText?.length > 3) getClasses(searchText);
+        if (!searchText) getClasses(null);
       },
       onChangePage: (page: any) => {
         setState({ ...state, page: page });
@@ -170,18 +169,18 @@ function ClassesTable(props: Props) {
    */
   useEffect(() => {
     getClasses();
-  }, [state.perPage, state.page, state.filter]);
+  }, [state.perPage, state.page]);
 
   /**
    *
    */
-  function getClasses() {
+  function getClasses(filter: string | null = null) {
     setState({ ...state, loading: true });
-    get(
-      `${UrlEnum.getClasses}/${state.page}/${state.perPage}/${state.filter}`
-    ).then((data) => {
-      setState({ ...state, classes: data.classes, loading: false });
-    });
+    get(`${UrlEnum.getClasses}/${state.page}/${state.perPage}/${filter}`).then(
+      (data) => {
+        setState({ ...state, classes: data.classes, loading: false });
+      }
+    );
   }
 
   /**
@@ -216,16 +215,6 @@ function ClassesTable(props: Props) {
 
   /**
    *
-   * @param e
-   */
-  function handleCheckBoxChange(e: any) {
-    const newModel: any = handleChange(e, state.selectedClass);
-    newModel.isMandatory = e.target.checked;
-    setState({ ...state, selectedUser: newModel });
-  }
-
-  /**
-   *
    * @param event
    */
   function handleInputChange(event: any) {
@@ -244,7 +233,7 @@ function ClassesTable(props: Props) {
       />
       {state.preview ? (
         <Modal
-          title={Vocabulary.subject}
+          title={Vocabulary.class}
           onClose={() => setState({ ...state, preview: false })}
           open={state.preview}
           children={
@@ -254,10 +243,9 @@ function ClassesTable(props: Props) {
               }}
               instantValidate={true}
             >
-              <Subject
+              <SchoolClass
                 model={state.selectedClass}
                 handleChange={handleInputChange}
-                handleCheckBox={handleCheckBoxChange}
               />
             </ValidatorForm>
           }
